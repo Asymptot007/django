@@ -5,12 +5,29 @@ spark\Scripts\activate -- deactivate
 python -m pip install --upgrade pip
 make requirment file -- add django version
 pip install -r requirements.txt
+
 django-admin.exe startproject mysite 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static') --add static dir on settings
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com'] --add ALLOWED_HOSTS
+
 python manage.py migrate --for creating dbs and initial setup
 python manage.py runserver
 python manage.py startapp blog -- create app
 python manage.py makemigrations blog --create schema in models
 python manage.py migrate blog -migrate to db
 python manage.py createsuperuser -create admin accc
+python manage.py shell --django shell
+
+{(from trial.models import Post -> Post.objects.all()) --see all posts                    --shell command examples for ORM(Quesrysets)
+Post.objects.create(author=me, title='Sample title', text='Test')
+(from django.contrib.auth.models import User -> User.objects.all()) --user list
+me = User.objects.get(username='gourav') me for the auther field.
+from django.utils import timezone}->post = Post.objects.get(title="Sample title")->
+post.publish() --to publish when publish method is in model.
+(_lte to get all the fields)
+ Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date') --chaning querysets
+
+{Post.objects.filter(author=me)                                                              --filter output
+Post.objects.filter(title__contains='title')}
+Post.objects.order_by('created_date')
+Post.objects.order_by('-created_date') --reverse
